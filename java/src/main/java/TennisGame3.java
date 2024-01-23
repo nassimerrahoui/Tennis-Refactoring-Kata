@@ -1,35 +1,40 @@
+import java.util.Objects;
 
 public class TennisGame3 implements TennisGame {
-    
-    private int p2;
-    private int p1;
-    private String p1N;
-    private String p2N;
+    public static final String[] SCORE_LABEL = new String[]{"Love", "Fifteen", "Thirty", "Forty"};
+    private final Player playerOne;
+    private final Player playerTwo;
 
-    public TennisGame3(String p1N, String p2N) {
-        this.p1N = p1N;
-        this.p2N = p2N;
+    public TennisGame3(String playerOneName, String playerTwoName) {
+        this.playerOne = new Player(playerOneName);
+        this.playerTwo = new Player(playerTwoName);
     }
 
     public String getScore() {
-        String s;
-        if (p1 < 4 && p2 < 4 && !(p1 + p2 == 6)) {
-            String[] p = new String[]{"Love", "Fifteen", "Thirty", "Forty"}; 
-            s = p[p1];
-            return (p1 == p2) ? s + "-All" : s + "-" + p[p2];
-        } else {
-            if (p1 == p2)
-                return "Deuce";
-            s = p1 > p2 ? p1N : p2N;
-            return ((p1-p2)*(p1-p2) == 1) ? "Advantage " + s : "Win for " + s;
-        }
+        boolean isNotEndgame = playerOne.score < 4 && playerTwo.score < 4 && !(playerOne.score + playerTwo.score == 6);
+        if (isNotEndgame) return getCurrentScore();
+        return getEndgameScore();
     }
-    
+
+    private String getCurrentScore() {
+        String score = SCORE_LABEL[playerOne.score];
+        var hasSameScore = playerOne.score == playerTwo.score;
+        return hasSameScore ? score + "-All" : score + "-" + SCORE_LABEL[playerTwo.score];
+    }
+
+    private String getEndgameScore() {
+        var hasSameScore = playerOne.score == playerTwo.score;
+        if (hasSameScore) return "Deuce";
+        String leader = playerOne.score > playerTwo.score ? playerOne.name : playerTwo.name;
+        boolean hasAdvantage = (playerOne.score - playerTwo.score) * (playerOne.score - playerTwo.score) == 1;
+        return hasAdvantage ? "Advantage " + leader : "Win for " + leader;
+    }
+
     public void wonPoint(String playerName) {
-        if (playerName == "player1")
-            this.p1 += 1;
+        if (Objects.equals(playerName, "player1"))
+            this.playerOne.score += 1;
         else
-            this.p2 += 1;
+            this.playerTwo.score += 1;
         
     }
 
