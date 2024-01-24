@@ -15,15 +15,14 @@ public class TennisGame3 implements TennisGame {
     }
 
     public String getScore() {
-        String winner;
         if (playerOneScore < 4 && playerTwoScore < 4 && !(playerOneScore + playerTwoScore == 6)) {
-            winner = SCORE_NAME[playerOneScore];
-            return (playerOneScore == playerTwoScore) ? winner + "-All" : winner + "-" + SCORE_NAME[playerTwoScore];
+            var scoreName = SCORE_NAME[playerOneScore];
+            return (playerOneScore == playerTwoScore) ? scoreName + "-All" : scoreName + "-" + SCORE_NAME[playerTwoScore];
         } else {
             if (playerOneScore == playerTwoScore)
                 return "Deuce";
-            winner = playerOneScore > playerTwoScore ? playerOneName : playerTwoName;
-            return ((playerOneScore - playerTwoScore)*(playerOneScore - playerTwoScore) == 1) ? "Advantage " + winner : "Win for " + winner;
+            String leader = playerOneScore > playerTwoScore ? playerOneName : playerTwoName;
+            return ((playerOneScore - playerTwoScore)*(playerOneScore - playerTwoScore) == 1) ? "Advantage " + leader : "Win for " + leader;
         }
     }
     
