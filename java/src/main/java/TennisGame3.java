@@ -17,13 +17,17 @@ public class TennisGame3 implements TennisGame {
     public String getScore() {
         if (playerOneScore < 4 && playerTwoScore < 4 && !(playerOneScore + playerTwoScore == 6)) {
             var scoreName = SCORE_NAME[playerOneScore];
-            return (playerOneScore == playerTwoScore) ? scoreName + "-All" : scoreName + "-" + SCORE_NAME[playerTwoScore];
+            return isPlayerScoreEqual() ? scoreName + "-All" : scoreName + "-" + SCORE_NAME[playerTwoScore];
         } else {
             if (playerOneScore == playerTwoScore)
                 return "Deuce";
             String leader = playerOneScore > playerTwoScore ? playerOneName : playerTwoName;
             return hasAdvantage() ? "Advantage " + leader : "Win for " + leader;
         }
+    }
+
+    private boolean isPlayerScoreEqual() {
+        return playerOneScore == playerTwoScore;
     }
 
     private boolean hasAdvantage() {
