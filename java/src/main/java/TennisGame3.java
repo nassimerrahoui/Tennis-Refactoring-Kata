@@ -22,10 +22,14 @@ public class TennisGame3 implements TennisGame {
             if (playerOneScore == playerTwoScore)
                 return "Deuce";
             String leader = playerOneScore > playerTwoScore ? playerOneName : playerTwoName;
-            return ((playerOneScore - playerTwoScore)*(playerOneScore - playerTwoScore) == 1) ? "Advantage " + leader : "Win for " + leader;
+            return hasAdvantage() ? "Advantage " + leader : "Win for " + leader;
         }
     }
-    
+
+    private boolean hasAdvantage() {
+        return Math.abs(playerOneScore - playerTwoScore) == 1;
+    }
+
     public void wonPoint(String playerName) {
         if (Objects.equals(playerName, PLAYER_ONE))
             this.playerOneScore += 1;
